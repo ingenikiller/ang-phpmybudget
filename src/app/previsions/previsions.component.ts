@@ -16,11 +16,9 @@ export class PrevisionsComponent implements OnInit {
 
   annee: String| undefined;
 
-  retourService!:any[];
+  retourService!:PrevisionListeInterface;
 
   listePeriode : Periode[] | undefined;
-  listeDepense!: FluxDetailInterface[];
-  listeRecette!: FluxDetailInterface[];
 
   tabRecapDepensesPrevisions!: number[];
   tabRecapDepensesReelles!: number[];
@@ -30,14 +28,26 @@ export class PrevisionsComponent implements OnInit {
   cumulDifferenceDepenses: number=0;
   cumulDifferenceRecettes: number=0;
 
-  isDataLoaded: boolean=false;
-  
+  cumulPrevisionsDepenses!: string;
+  cumulReellesDepenses!: string;
+  cumulTotalDepenses!: string;
+
+
+  cumulPrevisionsRecettes!: string;
+  cumulReellesRecettes!: string;
+  cumulTotalRecettes!: string;
+
+  i: number=0;
+  //isDataLoaded: boolean=false;
+  public model: any = {};
 
 
   constructor(private route:ActivatedRoute,private _httpClient: HttpClient) {
     this.route.params.subscribe(params => {
       this.numeroCompte = params['numeroCompte'];
       this.annee='2021';
+
+      //this.retourService=Array(3);
       
       this.tabRecapDepensesPrevisions = Array(12);
       this.tabRecapDepensesReelles = Array(12);
@@ -54,11 +64,7 @@ export class PrevisionsComponent implements OnInit {
 
   ngOnInit(): void {
     
-    setTimeout(
-      () => {
-        //this.isAuth = true;
-      }, 4000
-    );
+    
   }
 
   getListePrevisions() {
@@ -83,12 +89,27 @@ export class PrevisionsComponent implements OnInit {
             //alert('retour OK');
           }
           //this.genereTableau(resultat.valeur);
-          //this.retourService=resultat.valeur;
-          
+          this.retourService=resultat;
+          setTimeout(() =>{
+            console.log('hide');
+            //this.isDataLoaded=true;
+            this.cumulPrevisionsDepenses = this.calculCumulAnnee(this.tabRecapDepensesPrevisions);
+            this.cumulReellesDepenses = this.calculCumulAnnee(this.tabRecapDepensesReelles);
+            this.cumulTotalDepenses = this.calculDifferenceDepensesAnnee().toFixed(2);
+            this.cumulPrevisionsRecettes = this.calculCumulAnnee(this.tabRecapRecettesPrevisions);
+            this.cumulReellesRecettes = this.calculCumulAnnee(this.tabRecapRecettesReelles);
+            this.cumulTotalRecettes = this.calculDifferenceRecettesAnnee().toFixed(2);
+            console.log ('nb appel:'+this.i);
+          }, 1000);
+
+          setTimeout(() =>{
+            console.log ('nb appel2:'+this.i);
+          }, 1000);
+          /*
           this.listePeriode = resultat.valeur[0].tabResult;
           this.listeDepense = resultat.valeur[1].tabResult;
           this.listeRecette = resultat.valeur[2].tabResult;
-          
+          */
           //this.isDataLoaded=true;
           /*setTimeout(() =>{
             console.log('hide');
@@ -108,7 +129,7 @@ export class PrevisionsComponent implements OnInit {
           //this.emitnbTotalLigneSubject();
         });
   }
-
+/*
   private genereTableau(data:any[]) {
     //var tableau = document.getElementById('liste');
 
@@ -116,7 +137,7 @@ export class PrevisionsComponent implements OnInit {
     this.listeDepense = <FluxDetailInterface[]>data[1].tabResult;
     this.listeRecette = <FluxDetailInterface[]>data[2].tabResult;
   }
-
+*/
   /**
    * 
    * @param tab 
@@ -141,9 +162,9 @@ export class PrevisionsComponent implements OnInit {
   calculCumul(type: number, mois: string, indice: number, mode: number) {
     let tab: FluxDetailInterface[];
     if(type==1) {
-      tab = this.listeDepense;
+      tab = this.retourService.valeur[1].tabResult;
     } else {
-      tab = this.listeRecette;
+      tab = this.retourService.valeur[2].tabResult;
     }
     let total: number=0
     
@@ -177,7 +198,8 @@ export class PrevisionsComponent implements OnInit {
   }
 
   calculDifferenceMois(mode: number, mois: string) {
-    console.log('diff mois'+mode+mois);
+    //console.log('diff mois'+mode+mois);
+    this.i++;
     let prevision: number[];
     let reelle: number[];
     if(mode==1) {
@@ -200,13 +222,22 @@ export class PrevisionsComponent implements OnInit {
 
   }
 
-  afficheDifferenceDepensesAnnee() {
-    //console.log('cumul dep');
-    return this.cumulDifferenceDepenses;
+  calculDifferenceDepensesAnnee() {
+    let total=0;
+    let i:number=0;
+    for (i=0;i<12;i++) { 
+      total+=this.tabRecapDepensesPrevisions[i]-this.tabRecapDepensesReelles[i];
+    }
+    return total;
   }
-  afficheDifferenceRecettesAnnee() {
-    //console.log('cumul rec');
-    return this.cumulDifferenceRecettes;
+
+  calculDifferenceRecettesAnnee() {
+    let total=0;
+    let i:number=0;
+    for (i=0;i<12;i++) { 
+      total+=this.tabRecapRecettesPrevisions[i]-this.tabRecapRecettesReelles[i];
+    }
+    return total;
   }
 
   /**
@@ -221,51 +252,5 @@ export class PrevisionsComponent implements OnInit {
     } else {
       return Number(montant).toFixed(2);
     }
-  }
-  
-  
-  
-  private genereTableau2(data:any[]) {
-
-    var tableau = document.getElementById('liste');
-
-    let listePeriode = <Periode[]>data[0].tabResult;
-    
-
-    var entete = document.createElement('tr');
-    entete.append(this.createElement('th','Flux'));
-    for (let periode of listePeriode) {
-      entete.append(this.createElement('th',periode.periode));
-    }
-    entete.append(this.createElement('th', listePeriode[0].annee));
-    entete.append(this.createElement('th','AS'));
-    tableau?.append(entete);
-
-
-    var button=this.createElement('button','','btn btn-primary');
-    button.setAttribute('id', 'creerCompte');
-    button.setAttribute('onblur', 'creerCompte()');
-
-   
-    /*
-    <button type="button" class="btn btn-primary" id="editerCompte" name="editerCompte" (click)="creerCompte()">
-      <span class="oi oi-plus"></span>
-    </button>*/
-
-    
-
-    document.getElementById('divtest')?.append(button);
-
-  }
-
-  createElement(type:string, valeur:string, classe:string=''){
-    var element = document.createElement(type);
-    element.innerHTML=valeur;
-    element.setAttribute('class', classe);
-    return element;
-  }
-
-  creerCompte() {
-    console.log('clic creer ');
   }
 }

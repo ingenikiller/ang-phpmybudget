@@ -1,19 +1,40 @@
 <app-menu></app-menu>
 <br>
-
-
-
-<table class="table table-bordered" id="liste">
+<div class="row justify-content-md-center">
+    <div class="col">
+        <div class="col col-lg4 form-group">
+            <label for="annee" class="col-sm-4 form-control-label">
+                Ann&eacute;e
+            </label>
+            <div class="col-sm-2">
+                <select name="annee" id="annee" class="form-select form-select-sm" onchange="refreshWindow()">
+                   <option value="2002">2022</option>
+                   <option value="2021">2021</option>
+                   <option value="2020">2020</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="-sm-6">
+        <div id="radio">
+            <input type="radio" id="radio1" name="radioChoixType" value="complet" checked="checked"/><label for="radio1">Complet</label>
+            <input type="radio" id="radio2" name="radioChoixType" value="pinel"/><label for="radio2">Avec Pinel</label>
+            <input type="radio" id="radio3" name="radioChoixType" value="sans"/><label for="radio3">Sans</label>
+        </div>
+    </div>
+</div>
+<br>
+<table class="table table-bordered" id="liste" *ngIf="retourService!=undefined && retourService.valeur[2]!=undefined">
     <thead>
         <tr>
             <th>Flux</th>
-            <td *ngFor='let periode of listePeriode'>
+            <td *ngFor='let periode of retourService.valeur[0].tabResult'>
                 {{ periode.periode }}
             </td>
             <td>{{annee}}</td>
         </tr>
     </thead>
-    <tbody *ngFor='let depense of listeDepense'>
+    <tbody *ngFor='let depense of retourService.valeur[1].tabResult'>
        
             <tr >
                 <td>{{depense.flux}}</td>
@@ -22,7 +43,6 @@
                 </td>
                 <td class="text-end">
                     {{ calcultotalLigne(depense.associatedObjet[0].tabResult) }}
-
                 </td>
             </tr>
             <tr >
@@ -32,38 +52,36 @@
                 </td>
                 <td class="text-end">
                     {{ calcultotalLigne(depense.associatedObjet[1].tabResult) }}
-
                 </td>
             </tr>
-       
     </tbody>
     <tbody>
         <tr>
-            <td>Total Pr&eacute;visions</td>
+            <th>Total Pr&eacute;visions</th>
             
-            <td *ngFor='let periode of listePeriode' class="text-end recap">
+            <td *ngFor='let periode of retourService.valeur[0].tabResult' class="text-end recap">
                 {{ calculCumul(1, periode.mois,0, 1) }}
             </td>
-            <td class="text-end recap">{{ calculCumulAnnee(tabRecapDepensesPrevisions) }}</td>
+            <td class="text-end recap">{{ cumulPrevisionsDepenses }}</td>
         </tr>
         <tr>
-            <td>Total D&eacute;penses</td>
+            <th>Total D&eacute;penses</th>
             
-            <td *ngFor='let periode of listePeriode'  class="text-end recap">
+            <td *ngFor='let periode of retourService.valeur[0].tabResult'  class="text-end recap">
                 {{ calculCumul(1, periode.mois,1, 1) }}
             </td>
-            <td class="text-end recap">{{ calculCumulAnnee(tabRecapDepensesReelles) }}</td>
+            <td class="text-end recap">{{ cumulReellesDepenses }}</td>
         </tr>
         <tr>
-            <td>Diff&eacute;rence</td>
+            <th>Diff&eacute;rence</th>
             
-            <td *ngFor='let periode of listePeriode'  class="text-end recap">
+            <td *ngFor='let periode of retourService.valeur[0].tabResult'  class="text-end recap">
                 {{ calculDifferenceMois(1, periode.mois) }}
             </td>
-            <td class="text-end recap">{{ afficheDifferenceDepensesAnnee() }}</td>
+            <td class="text-end recap">{{ cumulTotalDepenses }}</td>
         </tr>
     </tbody>
-    <tbody *ngFor='let depense of listeRecette'>
+    <tbody *ngFor='let depense of retourService.valeur[2].tabResult'>
        
         <tr >
             <td>{{depense.flux}}</td>
@@ -88,28 +106,28 @@
     </tbody>
     <tbody>
         <tr>
-            <td>Total Pr&eacute;visions</td>
+            <th>Total Pr&eacute;visions</th>
             
-            <td *ngFor='let periode of listePeriode' class="text-end recap">
+            <td *ngFor='let periode of retourService.valeur[0].tabResult' class="text-end recap">
                 {{ calculCumul(2, periode.mois,0, 1) }}
             </td>
-            <td class="text-end recap">{{calculCumulAnnee(tabRecapRecettesPrevisions)}}</td>
+            <td class="text-end recap">{{ cumulPrevisionsRecettes }}</td>
         </tr>
         <tr>
-            <td>Total D&eacute;penses</td>
+            <th>Total D&eacute;penses</th>
             
-            <td *ngFor='let periode of listePeriode'  class="text-end recap">
+            <td *ngFor='let periode of retourService.valeur[0].tabResult'  class="text-end recap">
                 {{ calculCumul(2, periode.mois,1, 1) }}
             </td>
-            <td class="text-end recap">{{calculCumulAnnee(tabRecapRecettesReelles)}}</td>
+            <td class="text-end recap">{{ cumulReellesRecettes }}</td>
         </tr>
         <tr>
-            <td>Diff&eacute;rence</td>
+            <th>Diff&eacute;rence</th>
             
-            <td *ngFor='let periode of listePeriode'  class="text-end recap">
+            <td *ngFor='let periode of retourService.valeur[0].tabResult'  class="text-end recap">
                 {{ calculDifferenceMois(2, periode.mois) }}
             </td>
-            <td class="text-end recap">{{afficheDifferenceRecettesAnnee()}}</td>
+            <td class="text-end recap">{{ cumulTotalRecettes }}</td>
         </tr>
     </tbody>
 </table>
