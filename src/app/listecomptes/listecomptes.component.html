@@ -1,0 +1,105 @@
+<app-menu></app-menu>
+
+<ng-template #content let-modal>
+  <div class="modal fade bd-example-modal-lg" tabindex="-1" id="boiteCompte" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edition</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" action="#" onsubmit="return soumettre(this);">
+            <input type="hidden" name="service" id="service"/>
+            <div class="container popup_operation">
+              <div class="form-group row">
+                <label for="numeroCompte" class="col-sm-6 form-control-label">
+                  Numero de compte
+                </label>
+                <div class="col-sm-6">
+                  <input class="form-control" size="12" name="numeroCompte" id="numeroCompte" tabindex="10" required="required"/>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="libelle" class="col-sm-6 form-control-label">
+                  Description
+                </label>
+                <div class="col-sm-6">
+                  <input class="form-control" type="text" name="libelle" id="libelle" size="11" maxlength="40" tabindex="20"/>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="solde" class="col-sm-6 form-control-label">
+                  Solde de base
+                </label>
+                <div class="col-sm-6">
+                  <input class="form-control numerique" type="numeric" name="solde" id="solde" size="10" tabindex="30" required="required"/>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Valider</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+              </div>
+            </div>
+          </form>			
+        </div> 
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<div class="row justify-content-md-center">
+  <div class="col-lg-10">
+    <h1>Liste des comptes</h1>
+
+    <button type="button" class="btn btn-primary" id="editerCompte" name="editerCompte" (click)="creerCompte()">
+      <span class="oi oi-plus"></span>
+    </button>
+    <br />
+    <table class="table table-striped table-bordered" name="tableauResultat" id="tableauResultat">
+      <thead>
+        <tr>
+          <th class="text-center">Compte</th>
+          <th class="text-center">Description</th>
+          <th class="text-center">Solde historique</th>
+          <th class="text-center">Solde</th>
+          <th class="text-center">Editer</th>
+          <th class="text-center">Op&eacute;rations</th>
+          <th class="text-center">Op&eacute; r&eacute;currentes</th>
+          <th class="text-center">Statistiques</th>
+          <th class="text-center">Pr&eacute;visions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor='let compte of listeCompte; let i=index'>
+          <td>{{compte.numeroCompte}}</td>
+          <td>{{compte.libelle}}</td>
+          <td class="text-end">{{ (compte.solde*1).toFixed(2) }} &euro;</td>
+          <td class="text-end">{{ (compte.solde*1 + compte.associatedObjet[0].tabResult[0].somme*1).toFixed(2) }} &euro;</td>
+          <td class="text-center">
+            <!--a role="button" (click)="editionCompte(compte)"><span class="oi oi-pencil"></span></a-->
+            <button class="btn btn-primary btn-sm" (click)="editerCompte(compte)"><span
+                class="oi oi-pencil"></span>
+              </button>
+            
+          </td>
+          <td class="text-center">
+            <a class="btn btn-primary btn-sm" [routerLink]="['/listeoperations', { numeroCompte: compte.numeroCompte }]"><span
+              class="oi oi-list"></span>
+            </a>
+
+          </td>
+          <td class="text-center">
+            <span class="oi oi-box"></span></td>
+          <td class="text-center">btn Stats</td>
+          <td class="text-center">
+            <a class="btn btn-primary btn-sm" [routerLink]="['/previsions', { numeroCompte: compte.numeroCompte }]"><span
+              class="oi oi-signal"></span>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

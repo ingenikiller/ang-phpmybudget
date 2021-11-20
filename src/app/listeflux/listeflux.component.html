@@ -1,0 +1,83 @@
+<app-menu></app-menu>
+<br>
+<div class="row">
+    <aside class="col formulaire">
+        <form method="post" name="recherche" id="recherche" (ngSubmit)="getListeFlux(true)">
+            <br/>
+            <!--xsl:call-template name="formulaireJson"/-->
+            <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group" role="group" aria-label="First group">
+                    <button type="submit" class="btn btn-primary">Rechercher</button>
+                </div>
+                <div class="btn-group" role="group" aria-label="Third group" style="float:right;">
+                    <button type="button" class="btn btn-primary" id="editerFluxBtn" name="editerFluxBtn" onclick="editerFlux('');" style="font-size:20px;">
+                        <span class="oi oi-plus"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="comptePrincipal" class="form-label">
+                    Compte principal
+                </label>
+                <select class="form-select form-select-sm form-select-sm" [(ngModel)]="model.comptePrincipal" [ngModelOptions]="{standalone: true}">
+                    <option></option>
+                    <option *ngFor='let compte of listeCompte; let i=index' value="{{compte.numeroCompte}}">
+                        {{ compte.libelle }}
+                    </option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="compteDestination" class="form-label">
+                    Compte destination
+                </label>
+                <select class="form-select form-select-sm form-select-sm" [(ngModel)]="model.compteDestination" [ngModelOptions]="{standalone: true}">
+                    <option></option>
+                    <option *ngFor='let compte of listeCompte; let i=index' value="{{compte.numeroCompte}}">
+                        {{ compte.libelle }}
+                    </option>
+                </select>
+            </div>
+        </form>
+        <br/>
+    </aside>
+    <div class="col-10">
+        <table class="table table-striped table-bordered" id="tableauResultat">
+            <thead>
+                <tr class="entete">
+                    <th>
+                        Flux
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                    <th class="text-center">
+                        Compte principal
+                    </th>
+                    <th class="text-center">
+                        Compte destination
+                    </th>
+                    <th colspan="2" class="text-center">
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="tbodyResultat">
+                <tr *ngFor='let flux of listeFlux; let i=index'>
+                    <td>{{ flux.flux }}</td>
+                    <td>{{ flux.description }}</td>
+                    <td>{{ flux.compteId }}</td>
+                    <td>{{ flux.compteDest }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <mat-paginator [length]="totalSize"
+              [pageSize]="pageSize"
+              [pageSizeOptions]="[5, 10, 20, 25, 100]"
+              [pageIndex]="pageIndex"
+              aria-label="Select page"
+              (page)="pageEvent = majPagination($event)">
+    </mat-paginator>
+
+
+</div>

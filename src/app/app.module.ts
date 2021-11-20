@@ -17,6 +17,7 @@ import { ListefluxComponent } from './listeflux/listeflux.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { PrevisionsComponent } from './previsions/previsions.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     ListeoperationsComponent,
     PageoperationComponent,
     PaginationComponent,
-    ListefluxComponent
+    ListefluxComponent,
+    PrevisionsComponent
     
   ],
   imports: [

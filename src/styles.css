@@ -93,3 +93,9 @@ form>fieldset {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+td.recap{
+	background-color: #babac5;
+	text-align:right;
+	font-weight: bold;
+}

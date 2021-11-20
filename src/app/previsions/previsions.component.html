@@ -1,0 +1,118 @@
+<app-menu></app-menu>
+<br>
+
+
+
+<table class="table table-bordered" id="liste">
+    <thead>
+        <tr>
+            <th>Flux</th>
+            <td *ngFor='let periode of listePeriode'>
+                {{ periode.periode }}
+            </td>
+            <td>{{annee}}</td>
+        </tr>
+    </thead>
+    <tbody *ngFor='let depense of listeDepense'>
+       
+            <tr >
+                <td>{{depense.flux}}</td>
+                <td *ngFor='let montant of depense.associatedObjet[0].tabResult' class="text-end">
+                    {{formatMontant(montant.total)}}
+                </td>
+                <td class="text-end">
+                    {{ calcultotalLigne(depense.associatedObjet[0].tabResult) }}
+
+                </td>
+            </tr>
+            <tr >
+                <td></td>
+                <td *ngFor='let montant of depense.associatedObjet[1].tabResult' class="text-end">
+                    {{formatMontant(montant.total)}}
+                </td>
+                <td class="text-end">
+                    {{ calcultotalLigne(depense.associatedObjet[1].tabResult) }}
+
+                </td>
+            </tr>
+       
+    </tbody>
+    <tbody>
+        <tr>
+            <td>Total Pr&eacute;visions</td>
+            
+            <td *ngFor='let periode of listePeriode' class="text-end recap">
+                {{ calculCumul(1, periode.mois,0, 1) }}
+            </td>
+            <td class="text-end recap">{{ calculCumulAnnee(tabRecapDepensesPrevisions) }}</td>
+        </tr>
+        <tr>
+            <td>Total D&eacute;penses</td>
+            
+            <td *ngFor='let periode of listePeriode'  class="text-end recap">
+                {{ calculCumul(1, periode.mois,1, 1) }}
+            </td>
+            <td class="text-end recap">{{ calculCumulAnnee(tabRecapDepensesReelles) }}</td>
+        </tr>
+        <tr>
+            <td>Diff&eacute;rence</td>
+            
+            <td *ngFor='let periode of listePeriode'  class="text-end recap">
+                {{ calculDifferenceMois(1, periode.mois) }}
+            </td>
+            <td class="text-end recap">{{ afficheDifferenceDepensesAnnee() }}</td>
+        </tr>
+    </tbody>
+    <tbody *ngFor='let depense of listeRecette'>
+       
+        <tr >
+            <td>{{depense.flux}}</td>
+            <td *ngFor='let montant of depense.associatedObjet[0].tabResult' class="text-end">
+                {{formatMontant(montant.total)}}
+            </td>
+            <td class="text-end">
+                {{ calcultotalLigne(depense.associatedObjet[0].tabResult) }}
+
+            </td>
+        </tr>
+        <tr >
+            <td></td>
+            <td *ngFor='let montant of depense.associatedObjet[1].tabResult' class="text-end">
+                {{ formatMontant(montant.total) }}
+            </td>
+            <td class="text-end">
+                {{ calcultotalLigne(depense.associatedObjet[1].tabResult) }}
+
+            </td>
+        </tr>
+    </tbody>
+    <tbody>
+        <tr>
+            <td>Total Pr&eacute;visions</td>
+            
+            <td *ngFor='let periode of listePeriode' class="text-end recap">
+                {{ calculCumul(2, periode.mois,0, 1) }}
+            </td>
+            <td class="text-end recap">{{calculCumulAnnee(tabRecapRecettesPrevisions)}}</td>
+        </tr>
+        <tr>
+            <td>Total D&eacute;penses</td>
+            
+            <td *ngFor='let periode of listePeriode'  class="text-end recap">
+                {{ calculCumul(2, periode.mois,1, 1) }}
+            </td>
+            <td class="text-end recap">{{calculCumulAnnee(tabRecapRecettesReelles)}}</td>
+        </tr>
+        <tr>
+            <td>Diff&eacute;rence</td>
+            
+            <td *ngFor='let periode of listePeriode'  class="text-end recap">
+                {{ calculDifferenceMois(2, periode.mois) }}
+            </td>
+            <td class="text-end recap">{{afficheDifferenceRecettesAnnee()}}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<div id="divtest"></div>

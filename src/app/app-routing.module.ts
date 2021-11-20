@@ -6,6 +6,7 @@ import { ListecomptesComponent } from './listecomptes/listecomptes.component';
 import { ListeoperationsComponent } from './listeoperations/listeoperations.component';
 import { PageoperationComponent } from './pageoperation/pageoperation.component';
 import { ListefluxComponent } from './listeflux/listeflux.component';
+import { PrevisionsComponent } from './previsions/previsions.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -24,6 +25,10 @@ const routes: Routes = [
   {
     path: 'listeflux',
     component: ListefluxComponent
+  },
+  {
+    path: 'previsions',
+    component: PrevisionsComponent
   }
 
 ];
