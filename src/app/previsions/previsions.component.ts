@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { delay } from 'rxjs';
-import { FluxDetailInterface,  GroupeMontant,  PrevisionListeInterface } from '../interfaces/previsions.interface';
-import { Periode } from '../objets/Periode';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FluxDetailInterface,  GroupeMontant, PrevisionListeInterface } from '../interfaces/previsions.interface';
+
 
 @Component({
   selector: 'app-previsions',
@@ -15,11 +14,10 @@ export class PrevisionsComponent implements OnInit {
   private numeroCompte: String | undefined;
 
   annee: String| undefined;
-
+  mois!:number;
   retourService!:PrevisionListeInterface;
 
-  listePeriode : Periode[] | undefined;
-
+  
   tabRecapDepensesPrevisions!: number[];
   tabRecapDepensesReelles!: number[];
   tabRecapRecettesPrevisions!: number[];
@@ -37,107 +35,61 @@ export class PrevisionsComponent implements OnInit {
   cumulReellesRecettes!: string;
   cumulTotalRecettes!: string;
 
-  i: number=0;
+  cumulTotal!:string;
+
   //isDataLoaded: boolean=false;
   public model: any = {};
 
 
-  constructor(private route:ActivatedRoute,private _httpClient: HttpClient) {
+  constructor(private route:ActivatedRoute,private _httpClient: HttpClient,private router: Router) {
     this.route.params.subscribe(params => {
       this.numeroCompte = params['numeroCompte'];
       this.annee='2021';
-
-      //this.retourService=Array(3);
       
       this.tabRecapDepensesPrevisions = Array(12);
       this.tabRecapDepensesReelles = Array(12);
 
       this.tabRecapRecettesPrevisions = Array(12);
       this.tabRecapRecettesReelles = Array(12);
-
-      /*this.cumulDifferenceDepenses=0;
-      this.cumulDifferenceRecettes=0;*/
-      this.getListePrevisions();
-      delay(3000);
     });
   }
 
   ngOnInit(): void {
-    
-    
+    let date = new Date();
+    this.mois=date.getMonth();
+    this.model.annee=this.annee;
+    this.model.flagPinel='complet';
+    this.getListePrevisions();
   }
 
   getListePrevisions() {
     console.log('appel service');
     
     const token = localStorage.getItem('token');
-    let params = '&token=' + token+'&numeroCompte='+this.numeroCompte; //+'&numeroPage='+(this.pageIndex+1)+'&nbLigneParPage='+this.pageSize;
-    /*if(this.model.comptePrincipal!=undefined) {
-      params+='&comptePrincipal='+this.model.comptePrincipal;
-    }
-    if(this.model.compteDestination!=undefined) {
-      params+='&compteDestination='+this.model.compteDestination;
-    }*/
-
-
-    let url='api/phpmybudget/api.php?domaine=prevision&service=getlisteannee&periode=2021'+params;
+    let params = '&token=' + token+'&numeroCompte='+this.numeroCompte+'&flagPinel='+this.model.flagPinel;
+    
+    let url='api/phpmybudget/api.php?domaine=prevision&service=getlisteannee&periode='+this.model.annee+params;
     this._httpClient.get<PrevisionListeInterface>(url)
-        .subscribe(resultat => {
-          if (resultat.status === 'false') {
-
-          } else {
-            //alert('retour OK');
-          }
-          //this.genereTableau(resultat.valeur);
-          this.retourService=resultat;
-          setTimeout(() =>{
-            console.log('hide');
-            //this.isDataLoaded=true;
-            this.cumulPrevisionsDepenses = this.calculCumulAnnee(this.tabRecapDepensesPrevisions);
-            this.cumulReellesDepenses = this.calculCumulAnnee(this.tabRecapDepensesReelles);
-            this.cumulTotalDepenses = this.calculDifferenceDepensesAnnee().toFixed(2);
-            this.cumulPrevisionsRecettes = this.calculCumulAnnee(this.tabRecapRecettesPrevisions);
-            this.cumulReellesRecettes = this.calculCumulAnnee(this.tabRecapRecettesReelles);
-            this.cumulTotalRecettes = this.calculDifferenceRecettesAnnee().toFixed(2);
-            console.log ('nb appel:'+this.i);
-          }, 1000);
-
-          setTimeout(() =>{
-            console.log ('nb appel2:'+this.i);
-          }, 1000);
-          /*
-          this.listePeriode = resultat.valeur[0].tabResult;
-          this.listeDepense = resultat.valeur[1].tabResult;
-          this.listeRecette = resultat.valeur[2].tabResult;
-          */
-          //this.isDataLoaded=true;
-          /*setTimeout(() =>{
-            console.log('hide');
-            this.isDataLoaded=true;
-          }, 2000);
-          console.log('sortie')*/
-          /*this.listeFlux = resultat.valeur[0].tabResult;
-          if(majcompoMagination){
-            console.log('maj pagination');
-            this.totalSize=resultat.valeur[0].nbLineTotal;
-            this.pageSize=resultat.valeur[0].nbLine;
-            this.pageIndex=0;
-          }
-          
-          console.log('nb operations:' + this.listeFlux.length);*/
-          //this.emitOperationsListeSubject();
-          //this.emitnbTotalLigneSubject();
-        });
+      .subscribe(resultat => {
+        if (resultat.status === 'false') {
+          this.router.navigate(['/login']);
+        } else {
+          //alert('retour OK');
+        }
+        
+        this.retourService=resultat;
+        setTimeout(() =>{
+          this.cumulPrevisionsDepenses = this.calculCumulAnnee(this.tabRecapDepensesPrevisions);
+          this.cumulReellesDepenses = this.calculCumulAnnee(this.tabRecapDepensesReelles);
+          this.cumulTotalDepenses = this.calculDifferenceDepensesAnnee().toFixed(2);
+          this.cumulPrevisionsRecettes = this.calculCumulAnnee(this.tabRecapRecettesPrevisions);
+          this.cumulReellesRecettes = this.calculCumulAnnee(this.tabRecapRecettesReelles);
+          this.cumulTotalRecettes = this.calculDifferenceRecettesAnnee().toFixed(2);
+          this.cumulTotal = this.calculTotalAnnee().toFixed(2);
+        }, 500);
+      });
   }
-/*
-  private genereTableau(data:any[]) {
-    //var tableau = document.getElementById('liste');
 
-    this.listePeriode = <Periode[]>data[0].tabResult;
-    this.listeDepense = <FluxDetailInterface[]>data[1].tabResult;
-    this.listeRecette = <FluxDetailInterface[]>data[2].tabResult;
-  }
-*/
   /**
    * 
    * @param tab 
@@ -197,9 +149,13 @@ export class PrevisionsComponent implements OnInit {
     return total.toFixed(2);
   }
 
+  /**
+   * 
+   * @param mode dépenses=1, recettes=2
+   * @param mois 
+   * @returns 
+   */
   calculDifferenceMois(mode: number, mois: string) {
-    //console.log('diff mois'+mode+mois);
-    this.i++;
     let prevision: number[];
     let reelle: number[];
     if(mode==1) {
@@ -212,14 +168,16 @@ export class PrevisionsComponent implements OnInit {
 
     let diffrence=(prevision[Number(mois)-1]-reelle[Number(mois)-1]);
 
-    if(mode==1) {
-      this.cumulDifferenceDepenses+=diffrence;
-    } else {
-      this.cumulDifferenceRecettes+=diffrence;
-    }
-
     return diffrence.toFixed(2);
+  }
 
+  calculTotalMois(mois:string) {
+    let i = Number(mois)-1;
+    
+    let reelleDepenses=this.tabRecapDepensesReelles;
+    let reelleRecettes=this.tabRecapRecettesReelles;
+
+    return (reelleDepenses[i]+reelleRecettes[i]).toFixed(2);
   }
 
   calculDifferenceDepensesAnnee() {
@@ -239,6 +197,32 @@ export class PrevisionsComponent implements OnInit {
     }
     return total;
   }
+
+  calculTotalAnnee() {
+    let total=0;
+    let i:number=0;
+    for (i=0;i<12;i++) { 
+      total+=this.tabRecapDepensesReelles[i]+this.tabRecapRecettesReelles[i];
+    }
+    return total;
+  }
+
+  /**
+   * détermine s'il y a une différence entre un prévision et un réel pour un flux et un mois:
+   *  - si les deux sont différents
+   *  - et si on est sur le mois en cours
+   *  - et si le réel est différent de 0
+   * @param tab 
+   * @param periode 
+   * @returns 
+   */
+  afficheBalance(tab: any, periode: string): boolean{
+    let mois :number = Number(periode.substring(5)) -1;
+    let prevision = Number(tab.associatedObjet[0].tabResult[mois].total);
+    let reelle = Number(tab.associatedObjet[1].tabResult[mois].total);
+    return prevision!=reelle&&mois==this.mois&&reelle!=0?true:false;
+  }
+
 
   /**
    * 

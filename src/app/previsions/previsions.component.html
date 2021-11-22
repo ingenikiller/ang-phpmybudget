@@ -1,4 +1,7 @@
 <app-menu></app-menu>
+<app-edition-prevision-entete-liste ></app-edition-prevision-entete-liste>
+
+
 <br>
 <div class="row justify-content-md-center">
     <div class="col">
@@ -7,7 +10,7 @@
                 Ann&eacute;e
             </label>
             <div class="col-sm-2">
-                <select name="annee" id="annee" class="form-select form-select-sm" onchange="refreshWindow()">
+                <select class="form-select form-select-sm" [(ngModel)]="model.annee" (change)="getListePrevisions()">
                    <option value="2002">2022</option>
                    <option value="2021">2021</option>
                    <option value="2020">2020</option>
@@ -16,10 +19,13 @@
         </div>
     </div>
     <div class="-sm-6">
-        <div id="radio">
-            <input type="radio" id="radio1" name="radioChoixType" value="complet" checked="checked"/><label for="radio1">Complet</label>
-            <input type="radio" id="radio2" name="radioChoixType" value="pinel"/><label for="radio2">Avec Pinel</label>
-            <input type="radio" id="radio3" name="radioChoixType" value="sans"/><label for="radio3">Sans</label>
+        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+            <input type="radio" id="radio1" name="radioChoixType" class="btn-check" value="complet" checked="checked" [(ngModel)]="model.flagPinel" (change)="getListePrevisions()"/>
+            <label for="radio1" class="btn btn-outline-primary">Complet</label>
+            <input type="radio" id="radio2" name="radioChoixType" class="btn-check" value="pinel" [(ngModel)]="model.flagPinel" (change)="getListePrevisions()"/>
+            <label for="radio2" class="btn btn-outline-primary">Pinel uniquement</label>
+            <input type="radio" id="radio3" name="radioChoixType" class="btn-check" value="sans" [(ngModel)]="model.flagPinel" (change)="getListePrevisions()"/>
+            <label for="radio3" class="btn btn-outline-primary">Sans</label>
         </div>
     </div>
 </div>
@@ -39,9 +45,9 @@
             <tr >
                 <td>{{depense.flux}}</td>
                 <td *ngFor='let montant of depense.associatedObjet[0].tabResult' class="text-end">
-                    {{formatMontant(montant.total)}}
+                    <span *ngIf="afficheBalance(depense, montant.periode)" class="oi oi-loop"></span> {{formatMontant(montant.total)}}
                 </td>
-                <td class="text-end">
+                <td class="text-end recap">
                     {{ calcultotalLigne(depense.associatedObjet[0].tabResult) }}
                 </td>
             </tr>
@@ -50,7 +56,7 @@
                 <td *ngFor='let montant of depense.associatedObjet[1].tabResult' class="text-end">
                     {{formatMontant(montant.total)}}
                 </td>
-                <td class="text-end">
+                <td class="text-end recap">
                     {{ calcultotalLigne(depense.associatedObjet[1].tabResult) }}
                 </td>
             </tr>
@@ -88,7 +94,7 @@
             <td *ngFor='let montant of depense.associatedObjet[0].tabResult' class="text-end">
                 {{formatMontant(montant.total)}}
             </td>
-            <td class="text-end">
+            <td class="text-end recap">
                 {{ calcultotalLigne(depense.associatedObjet[0].tabResult) }}
 
             </td>
@@ -98,7 +104,7 @@
             <td *ngFor='let montant of depense.associatedObjet[1].tabResult' class="text-end">
                 {{ formatMontant(montant.total) }}
             </td>
-            <td class="text-end">
+            <td class="text-end recap">
                 {{ calcultotalLigne(depense.associatedObjet[1].tabResult) }}
 
             </td>
@@ -129,8 +135,12 @@
             </td>
             <td class="text-end recap">{{ cumulTotalRecettes }}</td>
         </tr>
+        <tr>
+            <th>Total</th>
+            <td *ngFor='let periode of retourService.valeur[0].tabResult'  class="text-end recap">
+                {{ calculTotalMois(periode.mois) }}
+            </td>
+            <td class="text-end recap">{{ cumulTotal }}</td>
+        </tr>
     </tbody>
 </table>
-
-
-<div id="divtest"></div>

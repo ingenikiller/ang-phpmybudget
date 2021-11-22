@@ -17,7 +17,11 @@ import { ListefluxComponent } from './listeflux/listeflux.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDialogModule } from '@angular/material/dialog';
+import {MatButtonModule} from '@angular/material/button';
+//import { MatDialogContentModule } from '@angular/material/';
 import { PrevisionsComponent } from './previsions/previsions.component';
+import { EditionPrevisionEnteteListeComponent } from './appDialog/edition-prevision-entete-liste/edition-prevision-entete-liste.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +34,8 @@ import { PrevisionsComponent } from './previsions/previsions.component';
     PageoperationComponent,
     PaginationComponent,
     ListefluxComponent,
-    PrevisionsComponent
+    PrevisionsComponent,
+    EditionPrevisionEnteteListeComponent
     
   ],
   imports: [
@@ -39,7 +44,9 @@ import { PrevisionsComponent } from './previsions/previsions.component';
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatDialogModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent],
