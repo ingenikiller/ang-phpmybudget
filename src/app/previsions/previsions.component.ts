@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DialogContentExampleDialog } from '../appDialog/edition-prevision-entete-liste/edition-prevision-entete-liste.component';
 import { FluxDetailInterface,  GroupeMontant, PrevisionListeInterface } from '../interfaces/previsions.interface';
 
 
@@ -41,7 +43,7 @@ export class PrevisionsComponent implements OnInit {
   public model: any = {};
 
 
-  constructor(private route:ActivatedRoute,private _httpClient: HttpClient,private router: Router) {
+  constructor(private route:ActivatedRoute,private _httpClient: HttpClient,private router: Router, public dialog: MatDialog) {
     this.route.params.subscribe(params => {
       this.numeroCompte = params['numeroCompte'];
       this.annee='2021';
@@ -236,5 +238,21 @@ export class PrevisionsComponent implements OnInit {
     } else {
       return Number(montant).toFixed(2);
     }
+  }
+
+  public openDialog(fluxid: number) {
+    console.log('flux:'+fluxid);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data={
+      page: this,
+      fluxid: fluxid,
+      compte: this.numeroCompte,
+      annee: this.annee
+    };
+    //let dialog = new MatDialog()
+    const dialogRef = this.dialog.open(DialogContentExampleDialog, dialogConfig);
+    /*dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });*/
   }
 }

@@ -15,18 +15,21 @@ import { PageoperationComponent } from './pageoperation/pageoperation.component'
 import { PaginationComponent } from './pagination/pagination.component';
 import { ListefluxComponent } from './listeflux/listeflux.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
 //import { MatDialogContentModule } from '@angular/material/';
 import { PrevisionsComponent } from './previsions/previsions.component';
-import { EditionPrevisionEnteteListeComponent } from './appDialog/edition-prevision-entete-liste/edition-prevision-entete-liste.component';
+//import { EditionPrevisionEnteteListeComponent } from './appDialog/edition-prevision-entete-liste/edition-prevision-entete-liste.component';
+import { DialogContentExampleDialog } from './appDialog/edition-prevision-entete-liste/edition-prevision-entete-liste.component'
+import { PagePrevisionsComponent } from './page-previsions/page-previsions.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-
+    
     LoginComponent,
     ListecomptesComponent,
     MenuComponent,
@@ -35,11 +38,14 @@ import { EditionPrevisionEnteteListeComponent } from './appDialog/edition-previs
     PaginationComponent,
     ListefluxComponent,
     PrevisionsComponent,
-    EditionPrevisionEnteteListeComponent
+    //EditionPrevisionEnteteListeComponent,
+    PagePrevisionsComponent,
+    DialogContentExampleDialog
     
   ],
   imports: [
     FormsModule,
+    ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,

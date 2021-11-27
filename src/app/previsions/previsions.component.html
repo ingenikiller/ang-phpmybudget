@@ -1,5 +1,3 @@
-<app-menu></app-menu>
-<app-edition-prevision-entete-liste ></app-edition-prevision-entete-liste>
 
 
 <br>
@@ -34,16 +32,16 @@
     <thead>
         <tr>
             <th>Flux</th>
-            <td *ngFor='let periode of retourService.valeur[0].tabResult'>
+            <th *ngFor='let periode of retourService.valeur[0].tabResult'>
                 {{ periode.periode }}
-            </td>
-            <td>{{annee}}</td>
+            </th>
+            <th>{{annee}}</th>
         </tr>
     </thead>
     <tbody *ngFor='let depense of retourService.valeur[1].tabResult'>
        
             <tr >
-                <td>{{depense.flux}}</td>
+                <td><a (click)="openDialog(depense.fluxId)">{{depense.flux}}</a></td>
                 <td *ngFor='let montant of depense.associatedObjet[0].tabResult' class="text-end">
                     <span *ngIf="afficheBalance(depense, montant.periode)" class="oi oi-loop"></span> {{formatMontant(montant.total)}}
                 </td>
@@ -63,7 +61,7 @@
     </tbody>
     <tbody>
         <tr>
-            <th>Total Pr&eacute;visions</th>
+            <th>Total pr&eacute;visions</th>
             
             <td *ngFor='let periode of retourService.valeur[0].tabResult' class="text-end recap">
                 {{ calculCumul(1, periode.mois,0, 1) }}
@@ -71,7 +69,7 @@
             <td class="text-end recap">{{ cumulPrevisionsDepenses }}</td>
         </tr>
         <tr>
-            <th>Total D&eacute;penses</th>
+            <th>Total d&eacute;penses</th>
             
             <td *ngFor='let periode of retourService.valeur[0].tabResult'  class="text-end recap">
                 {{ calculCumul(1, periode.mois,1, 1) }}
@@ -112,7 +110,7 @@
     </tbody>
     <tbody>
         <tr>
-            <th>Total Pr&eacute;visions</th>
+            <th>Total pr&eacute;visions</th>
             
             <td *ngFor='let periode of retourService.valeur[0].tabResult' class="text-end recap">
                 {{ calculCumul(2, periode.mois,0, 1) }}
@@ -120,7 +118,7 @@
             <td class="text-end recap">{{ cumulPrevisionsRecettes }}</td>
         </tr>
         <tr>
-            <th>Total D&eacute;penses</th>
+            <th>Total recettes</th>
             
             <td *ngFor='let periode of retourService.valeur[0].tabResult'  class="text-end recap">
                 {{ calculCumul(2, periode.mois,1, 1) }}

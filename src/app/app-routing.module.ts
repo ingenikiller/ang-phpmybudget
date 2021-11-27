@@ -7,6 +7,7 @@ import { ListeoperationsComponent } from './listeoperations/listeoperations.comp
 import { PageoperationComponent } from './pageoperation/pageoperation.component';
 import { ListefluxComponent } from './listeflux/listeflux.component';
 import { PrevisionsComponent } from './previsions/previsions.component';
+import { PagePrevisionsComponent } from './page-previsions/page-previsions.component'
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -28,7 +29,7 @@ const routes: Routes = [
   },
   {
     path: 'previsions',
-    component: PrevisionsComponent
+    component: PagePrevisionsComponent
   }
 
 ];

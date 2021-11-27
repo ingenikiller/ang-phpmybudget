@@ -1,8 +1,29 @@
+
+
+<p *ngIf="true"> test!</p>
 <div mat-dialog>
 <p mat-dialog-title>Edition pr&eacute;vision</p>
 
+
 <div mat-dialog-content class="mat-typography">
-  Coucou
+  Coucou flux: {{ fluxid }}
+  <form class=”form-group” [formGroup]=previsionsForm>
+    <table>
+      <tr>
+        <th>Mois</th>
+        <th>Montant</th>
+        <th>Propager</th>
+      </tr>
+      <tbody>
+        <tr *ngFor="let x of previsions.controls;let i=index" [formGroupName]="i">
+          <td><input class="form-control" formControlName="mois" placeholder="Item name"></td>
+          
+          <td>Propager</td>
+        </tr>
+      </tbody>
+    </table>
+</form>
+
 </div>
 <div mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>

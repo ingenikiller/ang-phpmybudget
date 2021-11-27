@@ -1,14 +1,11 @@
 export class Prevision {
+    ligneId!: number;
+    typenr!: string;
+    identete!: number;
+    nomEntete!: string;
+    noCompte!: string;
     fluxId!: number;
-    flux!: string;
-    description!: string;
-    typeOperationId!: string;
-    modePaiementId!: string;
-    compteId!: string;
-    compteDest!: string;
-    fluxMaitre!: string;
-    fluxMaitreId!: number;
-    entreeEpargne!: string;
-    sortieEpargne!: string;
-    depense!: string;
+    montant!: number;
+    annee!: string;
+    mois!: string;
   }
