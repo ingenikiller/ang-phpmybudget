@@ -32,7 +32,7 @@ export class ComptesService {
 
   getListeCompte() {
     const token = localStorage.getItem('token');
-    const url = 'api/api.php?domaine=compte&service=getliste&token=' + token;
+    const url = '/api/api.php?domaine=compte&service=getliste&token=' + token;
     this._httpClient.get<CompteListeInterface>(url)
         .subscribe(resultat => {
           if (resultat.status === 'false') {

@@ -70,7 +70,7 @@ export class PrevisionsComponent implements OnInit {
     const token = localStorage.getItem('token');
     let params = '&token=' + token+'&numeroCompte='+this.numeroCompte+'&flagPinel='+this.model.flagPinel;
     
-    let url='api/phpmybudget/api.php?domaine=prevision&service=getlisteannee&periode='+this.model.annee+params;
+    let url='/api/api.php?domaine=prevision&service=getlisteannee&periode='+this.model.annee+params;
     this._httpClient.get<PrevisionListeInterface>(url)
       .subscribe(resultat => {
         if (resultat.status === 'false') {

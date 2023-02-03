@@ -24,6 +24,7 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
+              "src/.htaccess",
               "src/assets"
             ],
             "styles": [
@@ -74,7 +75,7 @@
           "configurations": {
             "production": {
               "browserTarget": "ang-phpmybudget:build:production",
-              "proxyConfig": "src/proxy.conf.json"
+              "proxyConfig": "src/proxy/proxy-prod.conf.json"
             },
             "development": {
               "browserTarget": "ang-phpmybudget:build:development"
@@ -83,7 +84,7 @@
           "defaultConfiguration": "development",
           "options": {
             "browserTarget": "move-safe:build",
-            "proxyConfig": "src/proxy.conf.json"
+            "proxyConfig": "src/proxy/proxy.conf.json"
           }
         },
         "extract-i18n": {

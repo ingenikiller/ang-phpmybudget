@@ -64,7 +64,7 @@ export class ListefluxComponent implements OnInit {
     }
 
 
-    let url='api/phpmybudget/api.php?domaine=flux&service=getliste'+params;
+    let url='/api/api.php?domaine=flux&service=getliste'+params;
     this._httpClient.get<FluxListeInterface>(url)
         .subscribe(resultat => {
           if (resultat.status === 'false') {

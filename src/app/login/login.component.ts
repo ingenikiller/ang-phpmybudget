@@ -33,14 +33,14 @@ constructor(
   login() {
     console.log('Tentative de connexion');
     
-    this._httpClient.request<LoginReponse>('POST', 'api/phpmybudget/api.php?domaine=technique&service=gettoken&nom=' + this.model.username + '&motDePasse=' + this.model.password, {
+    this._httpClient.request<LoginReponse>('POST', '/api/api.php?domaine=technique&service=gettoken&nom=' + this.model.username + '&motDePasse=' + this.model.password, {
       responseType:"json"} )
       .subscribe(retour => {
         let reponse: ReponseAjax;
         reponse = retour.valeur[0];
         if (reponse.status === 'OK') {
           localStorage.setItem('token', reponse.valeur);
-          this.router.navigate(['/listecomptes']);
+          this.router.navigate(['listecomptes']);
         } else {
           alert(reponse.message);
         }
