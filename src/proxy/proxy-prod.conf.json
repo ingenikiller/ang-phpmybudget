@@ -1,0 +1,7 @@
+{
+    "/api/*": {
+        "target": "http://sony218j/phpmybudget_api",
+        "secure": false,
+        "logLevel": "debug"
+    }
+}
