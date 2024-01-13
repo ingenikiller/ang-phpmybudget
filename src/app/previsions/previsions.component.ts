@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogContentExampleDialog } from '../appDialog/edition-prevision-entete-liste/edition-prevision-entete-liste.component';
-import { FluxDetailInterface,  GroupeMontant, PrevisionListeInterface } from '../interfaces/previsions.interface';
+import { FluxDetailInterface,  FluxPrevision,  GroupeMontant, ListeFluxMouvements, MontantLigne, PrevisionListeInterface } from '../interfaces/previsions.interface';
 
 
 @Component({
@@ -46,7 +46,7 @@ export class PrevisionsComponent implements OnInit {
   constructor(private route:ActivatedRoute,private _httpClient: HttpClient,private router: Router, public dialog: MatDialog) {
     this.route.params.subscribe(params => {
       this.numeroCompte = params['numeroCompte'];
-      this.annee='2021';
+      this.annee='2023';
       
       this.tabRecapDepensesPrevisions = Array(12);
       this.tabRecapDepensesReelles = Array(12);
@@ -73,14 +73,14 @@ export class PrevisionsComponent implements OnInit {
     let url='/api/api.php?domaine=prevision&service=getlisteannee&periode='+this.model.annee+params;
     this._httpClient.get<PrevisionListeInterface>(url)
       .subscribe(resultat => {
-        if (resultat.status === 'false') {
+        /*if (resultat.status === 'false') {
           this.router.navigate(['/login']);
         } else {
           //alert('retour OK');
-        }
+        }*/
         
         this.retourService=resultat;
-        setTimeout(() =>{
+        /*setTimeout(() =>{
           this.cumulPrevisionsDepenses = this.calculCumulAnnee(this.tabRecapDepensesPrevisions);
           this.cumulReellesDepenses = this.calculCumulAnnee(this.tabRecapDepensesReelles);
           this.cumulTotalDepenses = this.calculDifferenceDepensesAnnee().toFixed(2);
@@ -88,7 +88,7 @@ export class PrevisionsComponent implements OnInit {
           this.cumulReellesRecettes = this.calculCumulAnnee(this.tabRecapRecettesReelles);
           this.cumulTotalRecettes = this.calculDifferenceRecettesAnnee().toFixed(2);
           this.cumulTotal = this.calculTotalAnnee().toFixed(2);
-        }, 500);
+        }, 500);*/
       });
   }
 
@@ -97,7 +97,7 @@ export class PrevisionsComponent implements OnInit {
    * @param tab 
    * @returns 
    */
-  calcultotalLigne(tab: GroupeMontant[]){
+  calcultotalLigne(tab: MontantLigne[]){
     let somme:number=0;
     for(let montant of tab) {
       somme+=Number(montant.total);
@@ -114,16 +114,16 @@ export class PrevisionsComponent implements OnInit {
    * @returns 
    */
   calculCumul(type: number, mois: string, indice: number, mode: number) {
-    let tab: FluxDetailInterface[];
+    let tab: FluxPrevision[];
     if(type==1) {
-      tab = this.retourService.valeur[1].tabResult;
+      tab = this.retourService.racine.ListeFluxDepense.data;
     } else {
-      tab = this.retourService.valeur[2].tabResult;
+      tab = this.retourService.racine.ListeFluxRecette.data;
     }
     let total: number=0
     
     for (let depense of tab) {
-      total+=Number(depense.associatedObjet[indice].tabResult[Number(mois)-1].total);
+      //total+=Number(depense.associatedObjet[indice].tabResult[Number(mois)-1].total);
     }
 
     if(type==1 ) {
@@ -218,10 +218,10 @@ export class PrevisionsComponent implements OnInit {
    * @param periode 
    * @returns 
    */
-  afficheBalance(tab: any, periode: string): boolean{
+  afficheBalance(tab: FluxPrevision, periode: string): boolean{
     let mois :number = Number(periode.substring(5)) -1;
-    let prevision = Number(tab.associatedObjet[0].tabResult[mois].total);
-    let reelle = Number(tab.associatedObjet[1].tabResult[mois].total);
+    let prevision = Number(tab.ListePrevision.data[mois].total);
+    let reelle = Number(tab.ListeOperation.data[mois].total);
     return prevision!=reelle&&mois==this.mois&&reelle!=0?true:false;
   }
 

@@ -1,0 +1,33 @@
+<!--div class="modal-dialog modal-lg modal-dialog-centered"-->
+
+<div class="modal-header">
+  <h4 class="modal-title">Hi there!</h4>
+  <!--button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button-->
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+</div>
+
+<div class="modal-body">
+  <div class="container popup_operation">
+    <div class="col-lg-12">
+      <div class="form-group row" id="divOpeRec">
+
+        <label for="noReleve" class="col-sm-6 form-control-label">
+        Opérations récurrentes
+        </label>
+        <div class="col-sm-6">
+          <select class="form-select form-select-sm" name="operationrecurrenteId" id="operationrecurrenteId" onblur="return getInfoOpeRec(this)" tabindex="100">&#160;</select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-footer">
+  <button type="submit" class="btn btn-primary">Valider</button>
+	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="activeModal.close('Close click')">Fermer</button>
+</div>
+
+
+<!--/div-->

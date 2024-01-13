@@ -9,7 +9,8 @@
             </label>
             <div class="col-sm-2">
                 <select class="form-select form-select-sm" [(ngModel)]="model.annee" (change)="getListePrevisions()">
-                   <option value="2002">2022</option>
+                   <option value="2023">2023</option>
+                   <option value="2022">2022</option>
                    <option value="2021">2021</option>
                    <option value="2020">2020</option>
                 </select>
@@ -28,38 +29,38 @@
     </div>
 </div>
 <br>
-<table class="table table-bordered" id="liste" *ngIf="retourService!=undefined && retourService.valeur[2]!=undefined">
+<table class="table table-bordered" id="liste" *ngIf="retourService!=undefined ">
     <thead>
         <tr>
             <th>Flux</th>
-            <th *ngFor='let periode of retourService.valeur[0].tabResult'>
+            <th *ngFor='let periode of retourService.racine.Periodes.data'>
                 {{ periode.periode }}
             </th>
             <th>{{annee}}</th>
         </tr>
     </thead>
-    <tbody *ngFor='let depense of retourService.valeur[1].tabResult'>
+    <tbody *ngFor='let flux of retourService.racine.ListeFluxDepense.data'>
        
             <tr >
-                <td><a (click)="openDialog(depense.fluxId)">{{depense.flux}}</a></td>
-                <td *ngFor='let montant of depense.associatedObjet[0].tabResult' class="text-end">
-                    <span *ngIf="afficheBalance(depense, montant.periode)" class="oi oi-loop"></span> {{formatMontant(montant.total)}}
+                <td><a (click)="openDialog(flux.fluxId)">{{flux.flux}}</a></td>
+                <td *ngFor='let montant of flux.ListePrevision.data' class="text-end">
+                    <span *ngIf="afficheBalance(flux, montant.periode)" class="oi oi-loop"></span> {{formatMontant(montant.total)}}
                 </td>
                 <td class="text-end recap">
-                    {{ calcultotalLigne(depense.associatedObjet[0].tabResult) }}
+                    {{ calcultotalLigne(flux.ListePrevision.data) }}
                 </td>
             </tr>
             <tr >
-                <td></td>
-                <td *ngFor='let montant of depense.associatedObjet[1].tabResult' class="text-end">
+                <td>&nbsp;</td>
+                <td *ngFor='let montant of flux.ListeOperation.data' class="text-end">
                     {{formatMontant(montant.total)}}
                 </td>
                 <td class="text-end recap">
-                    {{ calcultotalLigne(depense.associatedObjet[1].tabResult) }}
+                    {{ calcultotalLigne(flux.ListeOperation.data) }}
                 </td>
             </tr>
     </tbody>
-    <tbody>
+    <!--tbody>
         <tr>
             <th>Total pr&eacute;visions</th>
             
@@ -140,5 +141,5 @@
             </td>
             <td class="text-end recap">{{ cumulTotal }}</td>
         </tr>
-    </tbody>
+    </tbody-->
 </table>

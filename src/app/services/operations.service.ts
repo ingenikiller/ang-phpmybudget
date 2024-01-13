@@ -44,15 +44,15 @@ export class OperationsService {
     const url = 'api/api.php?domaine=operation&service=getliste&token=' + token+'&numeroCompte='+this.numeroCompte;
     this._httpClient.get<OperationListeInterface>(url)
         .subscribe(resultat => {
-          if (resultat.status === 'false') {
+          /*if (resultat.racine.status === 'false') {
 
           } else {
             //alert('retour OK');
-          }
-          this.listeOperations = resultat.valeur[0].tabResult;
+          }*/
+          this.listeOperations = resultat.racine.ListeOperations.data;
           //console.log('nbtotal: '+resultat.valeur[0].nbLineTotal);
-          this.nbTotalLigne=resultat.valeur[0].nbLineTotal;
-          this.nbLigne=resultat.valeur[0].nbLine;
+          this.nbTotalLigne=resultat.racine.ListeOperations.totalLigne;
+          this.nbLigne=resultat.racine.ListeOperations.data.length;
           console.log('nb operations:' + this.listeOperations.length);
           this.emitOperationsListeSubject();
           //this.emitnbTotalLigneSubject();

@@ -17,13 +17,13 @@ export class ListecomptesComponent implements OnInit {
 
   model: any = {};
 
-  listeCompte: Compte[];
+  listeComptes: Compte[];
 
   private compteSubscription: Subscription | undefined;
 
   constructor(private compteService: ComptesService) {
     this.isAuth=false;
-    this.listeCompte=Array();
+    this.listeComptes=Array();
     //this.compteSubscription=null;
     
     setTimeout(
@@ -45,14 +45,14 @@ export class ListecomptesComponent implements OnInit {
         });*/
         this.compteSubscription = this.compteService.compteListeSubject.subscribe(
           (comptes: Compte[]) => {
-            this.listeCompte = comptes;
+            this.listeComptes = comptes;
           }
         );
 
   }
 
   open(content: String, i: number) {
-    const compte: Compte = this.listeCompte[i];
+    const compte: Compte = this.listeComptes[i];
     this.model.numeroCompte = compte.numeroCompte;
     this.model.libelle = compte.libelle;
     this.model.solde = compte.solde;

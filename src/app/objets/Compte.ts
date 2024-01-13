@@ -2,18 +2,25 @@ export class Compte {
   numeroCompte: string;
   libelle: string;
   solde: number;
-  associatedObjet: Array<{
-    name: string;
-    tabResult: Array<{
-      somme: number;
-    }>
-  }>;
+  SommeOperation: SommeOperation;
+  ;
 
   constructor() {
     this.numeroCompte='';
     this.libelle='';
     this.solde=0;
-    this.associatedObjet=Array();
+    this.SommeOperation=new SommeOperation;
   }
 
+}
+
+export class SommeOperation {
+  data: Array<{
+      somme: number;
+    }>
+  ;
+
+  constructor() {
+    this.data=Array();
+  }
 }

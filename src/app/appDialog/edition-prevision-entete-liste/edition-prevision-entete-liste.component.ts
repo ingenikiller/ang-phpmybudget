@@ -3,7 +3,7 @@ import { Component, Inject, Input, OnInit } from '@angular/core';
 import {MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { Prevision } from 'src/app/objets/Prevision';
 import { PrevisionsComponent } from 'src/app/previsions/previsions.component';
-import { FormGroup, FormControl,FormArray, FormBuilder, Validators } from '@angular/forms'
+import { UntypedFormGroup, UntypedFormControl,UntypedFormArray, UntypedFormBuilder, Validators } from '@angular/forms'
 /*
 @Component({
   selector: 'app-edition-prevision-entete-liste',
@@ -49,12 +49,12 @@ export class DialogContentExampleDialog implements OnInit{
   annee!:number;
   listePrevisions!: Prevision[];
 
-  previsionsForm: FormGroup;
+  previsionsForm: UntypedFormGroup;
   
   constructor(private dialogRef: MatDialogRef<DialogContentExampleDialog>,  
     @Inject(MAT_DIALOG_DATA) data:any,
     private _httpClient: HttpClient,
-    private fb:FormBuilder) {
+    private fb:UntypedFormBuilder) {
     this.page=data.page;
     this.fluxid=data.fluxid;
     this.compte=data.compte;
@@ -70,8 +70,8 @@ export class DialogContentExampleDialog implements OnInit{
     this.getListePrevisions();
   }
 
-  get previsions() : FormArray {
-    return this.previsionsForm.get("previsions") as FormArray
+  get previsions() : UntypedFormArray {
+    return this.previsionsForm.get("previsions") as UntypedFormArray
   }
 
   getListePrevisions() {
@@ -91,8 +91,8 @@ export class DialogContentExampleDialog implements OnInit{
       let tab = resultat.valeur[0].tabResult;
       for(let x in tab) {
         //console.log('valeur de x:'+x)
-        this.previsions.insert(Number(x),new FormGroup({
-          mois:new FormControl(tab[x].mois,[Validators.required])
+        this.previsions.insert(Number(x),new UntypedFormGroup({
+          mois:new UntypedFormControl(tab[x].mois,[Validators.required])
       //completed:new FormControl(dat[x].completed,[Validators.required]),
       //priority:new FormControl(dat[x].priority,[Validators.required])
       }))

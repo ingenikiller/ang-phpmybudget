@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>Edition Flux </h1>
+<mat-dialog-content class="mat-typography">
+  <p>What's your favorite animal?</p>
+  
+  <mat-form-field appearance="fill">
+    <mat-label>Favorite Animal</mat-label>
+    <input matInput > <!-- [(ngModel)]="data.animal" -->
+  </mat-form-field>
+</mat-dialog-content>
+<div mat-dialog-actions>
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>Cancel</button>
+        <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button>
+      </mat-dialog-actions>
+</div>

@@ -72,11 +72,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor='let compte of listeCompte; let i=index'>
+        <tr *ngFor='let compte of listeComptes; let i=index'>
           <td>{{compte.numeroCompte}}</td>
           <td>{{compte.libelle}}</td>
           <td class="text-end">{{ (compte.solde*1).toFixed(2) }} &euro;</td>
-          <td class="text-end">{{ (compte.solde*1 + compte.associatedObjet[0].tabResult[0].somme*1).toFixed(2) }} &euro;</td>
+          <td class="text-end">{{ (compte.solde*1 + compte.SommeOperation.data[0].somme*1).toFixed(2) }} &euro;</td>
           <td class="text-center">
             <!--a role="button" (click)="editionCompte(compte)"><span class="oi oi-pencil"></span></a-->
             <button class="btn btn-primary btn-sm" (click)="editerCompte(compte)"><span

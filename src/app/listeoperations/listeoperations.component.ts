@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { InterfaceComponentPaginable } from '../interfaceProg/interfacecomponentpaginable';
@@ -19,7 +20,7 @@ export class ListeoperationsComponent implements OnInit, InterfaceComponentPagin
 
   private numeroCompte: String;
   //params: Observable;
-  constructor(private route: ActivatedRoute,private operationService: OperationsService) {
+  constructor(private route: ActivatedRoute,private operationService: OperationsService,private popupEditionOperation: NgbModal) {
     this.numeroCompte='';
     this.listeOperations=Array();
     /*this.params=this.route.paramMap.pipe(
@@ -55,6 +56,7 @@ export class ListeoperationsComponent implements OnInit, InterfaceComponentPagin
     //console.log('toto:'+this.operationService.nbTotalLigne);
   }
 
+  
 
   ngOnInit(): void {
     
@@ -65,5 +67,37 @@ export class ListeoperationsComponent implements OnInit, InterfaceComponentPagin
     );
 
   }
+
+  editerOperation(operationId: string) {
+    console.log('edition' + operationId);
+    const modalRef = this.popupEditionOperation.open(PopupEditionOperation, {backdrop: 'static', keyboard: false});
+    //modalRef.componentInstance.lesson = lesson;
+
+    
+  }
+
+}
+
+
+
+
+
+
+
+/*****************************************
+ * 
+ * 
+ */
+
+
+@Component({
+  selector: 'popup.edition.operation',
+  templateUrl: 'popup.edition.operation.html'
+})
+
+export class PopupEditionOperation {
+//@Input() lesson: Lesson;
+  constructor(public activeModal: NgbActiveModal) { }
+
 
 }

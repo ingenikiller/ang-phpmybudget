@@ -1,6 +1,6 @@
 {
     "/api/*": {
-        "target": "http://localhost/phpmybudget_api",
+        "target": "http://localhost/phpmybudget",
         "secure": false,
         "logLevel": "debug"
     }

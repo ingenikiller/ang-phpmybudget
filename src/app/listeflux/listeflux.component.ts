@@ -1,12 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+
 import { PageEvent } from '@angular/material/paginator';
 import { Subscription } from 'rxjs';
 import { FluxListeInterface } from '../interfaces/fluxliste.interface';
 import { Compte } from '../objets/Compte';
 import { Flux } from '../objets/Flux';
 import { ComptesService } from '../services/comptes.service';
+import {
+  MatDialog,
+  MAT_DIALOG_DATA,
+  MatDialogRef
+} from '@angular/material/dialog';
 
+import {MatNativeDateModule} from '@angular/material/core';
 
 @Component({
   selector: 'app-listeflux',
@@ -15,9 +22,10 @@ import { ComptesService } from '../services/comptes.service';
 })
 export class ListefluxComponent implements OnInit {
 
-  public pageSize = 20;
   public pageIndex = 0;
-  public totalSize = 0;
+  public pageSize = 0;
+  public totalSize = 100;
+  
   pageEvent: PageEvent | undefined;
   
   public model: any = {};
@@ -27,7 +35,7 @@ export class ListefluxComponent implements OnInit {
   private compteSubscription: Subscription | undefined;
   listeCompte: Compte[] | undefined;
 
-  constructor(private _httpClient: HttpClient, private compteService: ComptesService) { }
+  constructor(private _httpClient: HttpClient, private compteService: ComptesService, public popupEditionFlux: MatDialog) { }
 
   ngOnInit(): void {
     this.compteSubscription = this.compteService.compteListeSubject.subscribe(
@@ -43,6 +51,7 @@ export class ListefluxComponent implements OnInit {
   public majPagination(event :PageEvent) {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
+
     /*console.log('appel liste '+event.pageIndex);
     console.log('appel nb/page '+event.pageSize);
     //console.log('appel nb/page '+event.);
@@ -72,17 +81,59 @@ export class ListefluxComponent implements OnInit {
           } else {
             //alert('retour OK');
           }
-          this.listeFlux = resultat.valeur[0].tabResult;
+          this.listeFlux = resultat.racine.ListeFlux.data;
           if(majcompoMagination){
             console.log('maj pagination');
-            this.totalSize=resultat.valeur[0].nbLineTotal;
-            this.pageSize=resultat.valeur[0].nbLine;
-            this.pageIndex=0;
+            //this.totalSize=resultat.racine.ListeFlux.totalLigne;
+            //this.page=1;
+            this.pageSize=resultat.racine.ListeFlux.data.length;
+            this.totalSize=resultat.racine.ListeFlux.totalLigne;
+            //alert(resultat.racine.ListeFlux.totalLigne);
           }
           
           console.log('nb operations:' + this.listeFlux.length);
+          console.log('nb operations total:' + this.totalSize);
           //this.emitOperationsListeSubject();
           //this.emitnbTotalLigneSubject();
         });
+  }
+
+  editerFlux(fluxId:string) {
+    console.log('Edition '+fluxId);
+    
+    const dialogRef = this.popupEditionFlux.open(PopupEditionFlux, { 
+      disableClose: true,
+      height: '480px',
+      width: '600px'
+
+      //data: { name: this.name, animal: this.animal, appelant: this },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+      //this.animal = result;
+      //this.refresh();
+    });
+
+  }
+
+
+}
+
+/***********************************************************
+  POPUP edition
+ */
+@Component({
+  selector: 'popup.edition.flux',
+  templateUrl: 'popup.edition.flux.html',
+})
+export class PopupEditionFlux {
+  constructor(
+    public dialogRef: MatDialogRef<PopupEditionFlux> //,
+    //@Inject(MAT_DIALOG_DATA) public data: DialogData,
+  ) {}
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }

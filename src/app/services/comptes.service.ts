@@ -14,19 +14,19 @@ import { Observable } from 'rxjs';
 })
 export class ComptesService {
 
-  private listeCompte: Compte[];
+  private listeComptes: Array<Compte> =[];
   isAuth: boolean;
 
   compteListeSubject = new Subject<Compte[]>();
 
   emitCompteListeSubject() {
-    this.compteListeSubject.next(this.listeCompte.slice());
+    this.compteListeSubject.next(this.listeComptes.slice());
   }
 
   // tslint:disable-next-line: variable-name
   constructor(private _httpClient: HttpClient) {
     this.isAuth=false;
-    this.listeCompte=Array();
+    //this.listeComptes=Array();
     this.getListeCompte();
   }
 
@@ -35,22 +35,14 @@ export class ComptesService {
     const url = '/api/api.php?domaine=compte&service=getliste&token=' + token;
     this._httpClient.get<CompteListeInterface>(url)
         .subscribe(resultat => {
-          if (resultat.status === 'false') {
-
+          if (resultat.codeerr === 'SESSION_CLOSE') {
+            console.log(resultat.codeerr);
+            location.href='/login';
           } else {
-            //alert('retour OK');
+            this.listeComptes = resultat.racine.ListeComptes.data;
+            console.log('nb comptes:' + this.listeComptes.length);
+            this.emitCompteListeSubject();
           }
-          this.listeCompte = resultat.valeur[0].tabResult;
-          console.log('nb comptes:' + this.listeCompte.length);
-          this.emitCompteListeSubject();
-          /*if (resultat[0].statutService === 'false') {
-
-            } else {
-              alert('retour OK');
-            }
-            this.listeCompte = resultat[0].tabResult;
-            console.log('nb comptes:' + this.listeCompte.length);
-            this.emitCompteListeSubject();*/
         });
   }
 
@@ -77,8 +69,8 @@ export class ComptesService {
         }*/
     });
 
-    this.listeCompte[id].libelle = libelle;
-    this.listeCompte[id].solde = solde;
+    this.listeComptes[id].libelle = libelle;
+    this.listeComptes[id].solde = solde;
   }
 /*
   retourneListeCompte(): Observable<CompteListeInterface[]> {

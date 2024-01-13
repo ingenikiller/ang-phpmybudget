@@ -36,8 +36,9 @@ constructor(
     this._httpClient.request<LoginReponse>('POST', '/api/api.php?domaine=technique&service=gettoken&nom=' + this.model.username + '&motDePasse=' + this.model.password, {
       responseType:"json"} )
       .subscribe(retour => {
-        let reponse: ReponseAjax;
-        reponse = retour.valeur[0];
+        //let reponse: ReponseAjax;
+        let reponse = retour.racine;
+        //alert(reponse.status);
         if (reponse.status === 'OK') {
           localStorage.setItem('token', reponse.valeur);
           this.router.navigate(['listecomptes']);

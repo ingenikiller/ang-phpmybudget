@@ -17,15 +17,23 @@ import { ListefluxComponent } from './listeflux/listeflux.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 
+
+
+
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
+import {MatFormFieldModule} from '@angular/material/form-field'
+import {MatInputModule} from '@angular/material/input'
+//import {MatRippleModule} from '@angular/material/m'
 //import { MatDialogContentModule } from '@angular/material/';
 import { PrevisionsComponent } from './previsions/previsions.component';
 //import { EditionPrevisionEnteteListeComponent } from './appDialog/edition-prevision-entete-liste/edition-prevision-entete-liste.component';
 import { DialogContentExampleDialog } from './appDialog/edition-prevision-entete-liste/edition-prevision-entete-liste.component'
 import { PagePrevisionsComponent } from './page-previsions/page-previsions.component';
-
+import { PopupEditionFlux } from './listeflux/listeflux.component'
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MaterialModule } from './material.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,7 +48,8 @@ import { PagePrevisionsComponent } from './page-previsions/page-previsions.compo
     PrevisionsComponent,
     //EditionPrevisionEnteteListeComponent,
     PagePrevisionsComponent,
-    DialogContentExampleDialog
+    DialogContentExampleDialog,
+    PopupEditionFlux
     
   ],
   imports: [
@@ -50,10 +59,14 @@ import { PagePrevisionsComponent } from './page-previsions/page-previsions.compo
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatPaginatorModule,
-    MatDialogModule,
-    MatButtonModule
+//    MatPaginatorModule,
+//    MatDialogModule,
+//    MatButtonModule,
+//    NgbModule,
+    MatInputModule,
+    MaterialModule
   ],
+  
   providers: [],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
