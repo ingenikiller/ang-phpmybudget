@@ -34,6 +34,7 @@ import { PagePrevisionsComponent } from './page-previsions/page-previsions.compo
 import { PopupEditionFlux } from './listeflux/listeflux.component'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MaterialModule } from './material.module';
+import { AcceuilstatistiquesComponent } from './acceuilstatistiques/acceuilstatistiques.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,7 +50,8 @@ import { MaterialModule } from './material.module';
     //EditionPrevisionEnteteListeComponent,
     PagePrevisionsComponent,
     DialogContentExampleDialog,
-    PopupEditionFlux
+    PopupEditionFlux,
+    AcceuilstatistiquesComponent
     
   ],
   imports: [
