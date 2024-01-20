@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogContentExampleDialog } from '../appDialog/edition-prevision-entete-liste/edition-prevision-entete-liste.component';
 import { FluxDetailInterface,  FluxPrevision,  GroupeMontant, ListeFluxMouvements, MontantLigne, PrevisionListeInterface } from '../interfaces/previsions.interface';

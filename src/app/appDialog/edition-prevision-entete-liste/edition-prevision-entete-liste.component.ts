@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import {MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig, MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA} from '@angular/material/legacy-dialog';
 import { Prevision } from 'src/app/objets/Prevision';
 import { PrevisionsComponent } from 'src/app/previsions/previsions.component';
 import { UntypedFormGroup, UntypedFormControl,UntypedFormArray, UntypedFormBuilder, Validators } from '@angular/forms'

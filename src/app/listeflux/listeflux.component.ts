@@ -1,17 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 
-import { PageEvent } from '@angular/material/paginator';
+import { LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
 import { Subscription } from 'rxjs';
 import { FluxListeInterface } from '../interfaces/fluxliste.interface';
 import { Compte } from '../objets/Compte';
 import { Flux } from '../objets/Flux';
 import { ComptesService } from '../services/comptes.service';
 import {
-  MatDialog,
-  MAT_DIALOG_DATA,
-  MatDialogRef
-} from '@angular/material/dialog';
+  MatLegacyDialog as MatDialog,
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogRef as MatDialogRef
+} from '@angular/material/legacy-dialog';
 
 import {MatNativeDateModule} from '@angular/material/core';
 
