@@ -80,7 +80,7 @@ export class PrevisionsComponent implements OnInit {
         }*/
         
         this.retourService=resultat;
-        /*setTimeout(() =>{
+        setTimeout(() =>{
           this.cumulPrevisionsDepenses = this.calculCumulAnnee(this.tabRecapDepensesPrevisions);
           this.cumulReellesDepenses = this.calculCumulAnnee(this.tabRecapDepensesReelles);
           this.cumulTotalDepenses = this.calculDifferenceDepensesAnnee().toFixed(2);
@@ -88,7 +88,7 @@ export class PrevisionsComponent implements OnInit {
           this.cumulReellesRecettes = this.calculCumulAnnee(this.tabRecapRecettesReelles);
           this.cumulTotalRecettes = this.calculDifferenceRecettesAnnee().toFixed(2);
           this.cumulTotal = this.calculTotalAnnee().toFixed(2);
-        }, 500);*/
+        }, 500);
       });
   }
 
@@ -107,10 +107,10 @@ export class PrevisionsComponent implements OnInit {
 
   /**
    * 
-   * @param type 
+   * @param type dépense ou recete
    * @param mois 
    * @param indice 
-   * @param mode 
+   * @param mode prévision ou réelle
    * @returns 
    */
   calculCumul(type: number, mois: string, indice: number, mode: number) {
@@ -124,6 +124,11 @@ export class PrevisionsComponent implements OnInit {
     
     for (let depense of tab) {
       //total+=Number(depense.associatedObjet[indice].tabResult[Number(mois)-1].total);
+      if(mode==0) {
+        total+=Number(depense.ListePrevision.data[Number(mois)-1].total);
+      } else {
+        total+=Number(depense.ListeOperation.data[Number(mois)-1].total);
+      }
     }
 
     if(type==1 ) {

@@ -92,7 +92,11 @@
           </td>
           <td class="text-center">
             <span class="oi oi-box"></span></td>
-          <td class="text-center">btn Stats</td>
+          <td class="text-center">
+            <a class="btn btn-primary btn-sm" [routerLink]="['/accueilstatistiques', { numeroCompte: compte.numeroCompte }]"><span
+              class="oi oi-list"></span>
+            </a>
+          </td>
           <td class="text-center">
             <a class="btn btn-primary btn-sm" [routerLink]="['/previsions', { numeroCompte: compte.numeroCompte }]"><span
               class="oi oi-signal"></span>
