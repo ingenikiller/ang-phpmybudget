@@ -8,10 +8,10 @@ import { Compte } from '../objets/Compte';
 import { Flux } from '../objets/Flux';
 import { ComptesService } from '../services/comptes.service';
 import {
-  MatLegacyDialog as MatDialog,
-  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
-  MatLegacyDialogRef as MatDialogRef
-} from '@angular/material/legacy-dialog';
+  MatDialog,
+  MAT_DIALOG_DATA,
+  MatDialogRef
+} from '@angular/material/dialog';
 
 import {MatNativeDateModule} from '@angular/material/core';
 

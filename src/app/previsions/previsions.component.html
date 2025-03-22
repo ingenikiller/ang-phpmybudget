@@ -37,7 +37,7 @@
             <th *ngFor='let periode of retourService.racine.Periodes.data'>
                 {{ periode.periode }}
             </th>
-            <th>{{annee}}</th>
+            <th>{{model.annee}}</th>
         </tr>
     </thead>
     <tbody *ngFor='let flux of retourService.racine.ListeFluxDepense.data'>

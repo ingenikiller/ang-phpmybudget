@@ -1,3 +1,20 @@
+<app-menu></app-menu>
 <br>
 <p>liste-periodes works!</p>
  
+<table>
+    <tr>
+        <th>Titre</th>
+    </tr>
+    <tr *ngFor='let ligne of data; let i=index'>
+        <td>
+            <input type="text"value="{{ data[i] }}"/>
+        </td>
+    </tr>
+
+    <input id="entree" [(ngModel)]="model.entree">
+    <input type="button" (click)="ajout()" Value="Ajout">
+    <input type="button" (click)="affiche()" value="Affiche">
+
+
+</table>

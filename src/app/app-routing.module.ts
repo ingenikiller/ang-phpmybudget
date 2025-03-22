@@ -30,6 +30,10 @@ const routes: Routes = [
     component: ListefluxComponent
   },
   {
+    path: 'listeperiodes',
+    component: ListePeriodesComponent
+  },
+  {
     path: 'previsions',
     component: PagePrevisionsComponent
   },

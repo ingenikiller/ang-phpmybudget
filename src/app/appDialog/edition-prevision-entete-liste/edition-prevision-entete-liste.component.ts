@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import {MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig, MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA} from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { Prevision } from 'src/app/objets/Prevision';
 import { PrevisionsComponent } from 'src/app/previsions/previsions.component';
-import { UntypedFormGroup, UntypedFormControl,UntypedFormArray, UntypedFormBuilder, Validators } from '@angular/forms'
+import { UntypedFormGroup, UntypedFormControl,UntypedFormArray, UntypedFormBuilder, Validators, FormGroup, FormBuilder } from '@angular/forms'
 /*
 @Component({
   selector: 'app-edition-prevision-entete-liste',
@@ -50,15 +50,20 @@ export class DialogContentExampleDialog implements OnInit{
   listePrevisions!: Prevision[];
 
   previsionsForm: UntypedFormGroup;
+
+  previsionForm: FormGroup;
   
   constructor(private dialogRef: MatDialogRef<DialogContentExampleDialog>,  
     @Inject(MAT_DIALOG_DATA) data:any,
     private _httpClient: HttpClient,
-    private fb:UntypedFormBuilder) {
+    private fb:UntypedFormBuilder,
+    private formBuilder: FormBuilder) {
     this.page=data.page;
     this.fluxid=data.fluxid;
     this.compte=data.compte;
     this.annee=data.annee;
+    
+      this.previsionForm=this.formBuilder.group({montant: ['', Validators.required]});
 
     this.previsionsForm = this.fb.group({
       //name: '',
@@ -70,9 +75,11 @@ export class DialogContentExampleDialog implements OnInit{
     this.getListePrevisions();
   }
 
-  get previsions() : UntypedFormArray {
+  /*get previsions() : UntypedFormArray {
     return this.previsionsForm.get("previsions") as UntypedFormArray
-  }
+  }*/
+
+  data = Array();
 
   getListePrevisions() {
     const token = localStorage.getItem('token');
@@ -88,25 +95,41 @@ export class DialogContentExampleDialog implements OnInit{
       /*this.previsions.push(new FormControl(resultat.valeur[0].tabResult[0].mois));
       this.previsions.push(new FormControl(resultat.valeur[0].tabResult[1].mois));*/
       //console.log('ee:'+this.listePrevisions[0].montant);
-      let tab = resultat.valeur[0].tabResult;
-      for(let x in tab) {
+      this.data = resultat.racine.PrevisionListe.data;
+      /*for(let ligne in tab) {
         //console.log('valeur de x:'+x)
-        this.previsions.insert(Number(x),new UntypedFormGroup({
+        this.previsions.insert(Number(ligne.ligneId),new UntypedFormGroup({
           mois:new UntypedFormControl(tab[x].mois,[Validators.required])
       //completed:new FormControl(dat[x].completed,[Validators.required]),
       //priority:new FormControl(dat[x].priority,[Validators.required])
       }))
-      }
+      }*/
 
 
     });
   }
 
-  save():void {
+  cancel():void {
+    console.log('bye');
+    this.dialogRef.close();
+  }
+
+  enregistre():void {
     console.log('clic save');
     this.dialogRef.close();
-    console.log('ee:'+this.listePrevisions[0].montant);
+    console.log('ee:'+this.data.length);
+    let json = JSON.stringify(this.data);
     this.page.getListePrevisions();
   }
+
+  propagerMontant(index: number):void {
+    console.log(index);
+    //alert(index);
+    let montant:number =this.data[index].montant;
+    for(let i=index; i<this.data.length;i++) {
+      this.data[i].montant=montant;
+    }
+  }
+
 
 }

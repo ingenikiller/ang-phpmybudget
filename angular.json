@@ -75,23 +75,23 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "ang-phpmybudget:build:production",
-              "proxyConfig": "src/proxy/proxy-prod.conf.json"
+              "proxyConfig": "src/proxy/proxy-prod.conf.json",
+              "buildTarget": "ang-phpmybudget:build:production"
             },
             "development": {
-              "browserTarget": "ang-phpmybudget:build:development"
+              "buildTarget": "ang-phpmybudget:build:development"
             }
           },
           "defaultConfiguration": "development",
           "options": {
-            "browserTarget": "move-safe:build",
-            "proxyConfig": "src/proxy/proxy.conf.json"
+            "proxyConfig": "src/proxy/proxy.conf.json",
+            "buildTarget": "move-safe:build"
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ang-phpmybudget:build"
+            "buildTarget": "ang-phpmybudget:build"
           }
         },
         "test": {

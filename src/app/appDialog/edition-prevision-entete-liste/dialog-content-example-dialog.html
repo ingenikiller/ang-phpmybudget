@@ -1,13 +1,13 @@
 
 
-<p *ngIf="true"> test!</p>
+<!--p *ngIf="true"> test!</p-->
 <div mat-dialog>
 <p mat-dialog-title>Edition pr&eacute;vision</p>
 
 
 <div mat-dialog-content class="mat-typography">
-  Coucou flux: {{ fluxid }}
-  <form class=”form-group” [formGroup]=previsionsForm>
+  <!--Coucou flux: {{ fluxid }}-->
+  <form class=”form-group” [formGroup]="previsionForm" (ngSubmit)="enregistre()">
     <table>
       <tr>
         <th>Mois</th>
@@ -15,10 +15,16 @@
         <th>Propager</th>
       </tr>
       <tbody>
-        <tr *ngFor="let x of previsions.controls;let i=index" [formGroupName]="i">
-          <td><input class="form-control" formControlName="mois" placeholder="Item name"></td>
+        <tr *ngFor="let ligne of data;let i=index">
+          <!--td><input class="form-control" formControlName="mois" placeholder="Item name"></td-->
+          <td>{{ ligne.mois }}</td>
+          <td>
+            <input id="montant-{{i}}" [(ngModel)]="ligne.montant" [ngModelOptions]="{standalone: true}">
+          </td>
           
-          <td>Propager</td>
+          <td>
+            <button type="button" value="Propager" (click)="propagerMontant(i)">Propager</button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -26,7 +32,7 @@
 
 </div>
 <div mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Cancel</button>
-  <button class="mat-raised-button btn-primary" (click)="save()">Install</button>
+  <button class="mat-button mat-dialog-close" (click)="cancel()">Annuler</button>
+  <button class="mat-raised-button btn-primary" (click)="enregistre()">Enregistrer</button>
 </div>
 </div>

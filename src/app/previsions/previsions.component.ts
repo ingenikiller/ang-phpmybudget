@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogContentExampleDialog } from '../appDialog/edition-prevision-entete-liste/edition-prevision-entete-liste.component';
 import { FluxDetailInterface,  FluxPrevision,  GroupeMontant, ListeFluxMouvements, MontantLigne, PrevisionListeInterface } from '../interfaces/previsions.interface';
@@ -15,7 +15,7 @@ export class PrevisionsComponent implements OnInit {
 
   private numeroCompte: String | undefined;
 
-  annee: String| undefined;
+  //annee: String| undefined;
   mois!:number;
   retourService!:PrevisionListeInterface;
 
@@ -46,7 +46,7 @@ export class PrevisionsComponent implements OnInit {
   constructor(private route:ActivatedRoute,private _httpClient: HttpClient,private router: Router, public dialog: MatDialog) {
     this.route.params.subscribe(params => {
       this.numeroCompte = params['numeroCompte'];
-      this.annee='2023';
+      this.model.annee=  new String((new Date()).getFullYear());
       
       this.tabRecapDepensesPrevisions = Array(12);
       this.tabRecapDepensesReelles = Array(12);
@@ -59,7 +59,7 @@ export class PrevisionsComponent implements OnInit {
   ngOnInit(): void {
     let date = new Date();
     this.mois=date.getMonth();
-    this.model.annee=this.annee;
+    this.model.annee=this.model.annee;
     this.model.flagPinel='complet';
     this.getListePrevisions();
   }
@@ -252,8 +252,9 @@ export class PrevisionsComponent implements OnInit {
       page: this,
       fluxid: fluxid,
       compte: this.numeroCompte,
-      annee: this.annee
+      annee: this.model.annee
     };
+    
     //let dialog = new MatDialog()
     const dialogRef = this.dialog.open(DialogContentExampleDialog, dialogConfig);
     /*dialogRef.afterClosed().subscribe(result => {
